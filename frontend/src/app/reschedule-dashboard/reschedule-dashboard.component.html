@@ -1,0 +1,21 @@
+<div class="dashboard-header">
+  <h2>Rescheduling Dashboard</h2>
+  <button class="btn btn-primary" (click)="refreshSuggestions()" [disabled]="loading">
+    {{ loading ? 'Loading...' : 'Refresh' }}
+  </button>
+</div>
+
+<div class="dashboard-content">
+  <div *ngIf="suggestions.length === 0 && !loading" class="no-suggestions">
+    <p>No rescheduling suggestions available.</p>
+  </div>
+
+  <div *ngIf="suggestions.length > 0" class="suggestions-list">
+    <app-reschedule-suggestion 
+      *ngFor="let suggestion of suggestions" 
+      [suggestion]="suggestion"
+      (accept)="onAcceptSuggestion($event)"
+      (reject)="onRejectSuggestion($event)">
+    </app-reschedule-suggestion>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+<div class="suggestion-card card">
+  <div class="suggestion-header">
+    <h3>Patient: {{ suggestion.patientName }}</h3>
+    <span class="status-badge" [ngClass]="'status-' + suggestion.status.toLowerCase()">
+      {{ suggestion.status }}
+    </span>
+  </div>
+
+  <div class="suggestion-details">
+    <div class="detail-row">
+      <strong>Current Appointment:</strong>
+      <span>{{ getFormattedDate(suggestion.slotStartTime) }} 
+        with {{ suggestion.currentProviderName }}</span>
+    </div>
+
+    <div class="detail-row">
+      <strong>Proposed Slot:</strong>
+      <span>{{ getFormattedDate(suggestion.newSlotStartTime) }} 
+        with {{ suggestion.newProviderName }}</span>
+    </div>
+
+    <div class="detail-row">
+      <strong>Trigger Reason:</strong>
+      <span>{{ suggestion.triggerReason }}</span>
+    </div>
+
+    <div class="detail-row">
+      <strong>Confidence:</strong>
+      <span [ngClass]="getConfidenceClass()">
+        {{ (suggestion.confidenceScore * 100).toFixed(0) }}%
+      </span>
+    </div>
+
+    <div class="detail-row explanation">
+      <strong>Explanation:</strong>
+      <p>{{ suggestion.explanation }}</p>
+    </div>
+  </div>
+
+  <div class="suggestion-actions" *ngIf="suggestion.status === 'PENDING'">
+    <button class="btn btn-success" (click)="onAccept()">Accept</button>
+    <button class="btn btn-danger" (click)="onReject()">Reject</button>
+  </div>
+
+  <div class="suggestion-actions" *ngIf="suggestion.status !== 'PENDING'">
+    <span class="action-message">
+      This suggestion has been {{ suggestion.status.toLowerCase() }}
+    </span>
+  </div>
+</div>
